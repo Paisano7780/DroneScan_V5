@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.dronescan.msdksample"> <!-- Tu Package Name de DJI -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DroneScan_V4"
+        tools:replace="android:allowBackup">
+
+        <!-- DJI SDK API Key -->
+        <meta-data
+            android:name="com.dji.sdk.API_KEY"
+            android:value="3196948d4ecce3e531187b11" /> <!-- Tu API Key real de DJI -->
+
+        <!-- Google Maps API Key (comentado, ya que no se necesita) -->
+        <!--
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="TU_API_KEY_DE_GOOGLE_MAPS_AQUI" />
+        -->
+
+        <!-- Mapbox/Maplibre Access Token (comentado, ya que no se necesita) -->
+        <!--
+        <meta-data
+            android:name="com.dji.mapkit.maplibre.apikey"
+            android:value="TU_MAPBOX_ACCESS_TOKEN_AQUI" />
+        -->
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

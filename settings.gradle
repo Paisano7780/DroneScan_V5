@@ -1,0 +1,28 @@
+// DroneScan_V5/settings.gradle
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    // CAMBIADO: Usamos PREFER_SETTINGS para permitir que los build.gradle de los módulos
+    // definan repositorios (especialmente el allprojects en el build.gradle raíz).
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        // Repositorio de DJI para el SDK (necesario para las dependencias de DJI)
+        maven { url 'https://developer.dji.com/maven/' }
+        // Si en algún momento necesitas Mapbox, su repositorio iría aquí
+        // maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
+    }
+}
+
+
+rootProject.name = "DroneScan_V5" // Nombre del proyecto raíz
+// Incluye los módulos renombrados directamente
+include(":app", ":uxsdk")
+    

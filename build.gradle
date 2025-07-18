@@ -1,0 +1,30 @@
+// DroneScan_V5/build.gradle (archivo de build a nivel de proyecto)
+
+buildscript {
+    ext.kotlin_version = '1.8.10' // Versión de Kotlin del sample
+    repositories {
+        google()
+        mavenCentral()
+        // Este repositorio es para los PLUGINS de buildscript.
+        maven { url 'https://developer.dji.com/maven/' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2' // Versión de AGP del sample
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // NOTA: Las dependencias de tu aplicación NO van aquí; pertenecen a los archivos build.gradle de cada módulo
+    }
+}
+
+// Este bloque es CRÍTICO y debe estar presente para que funcione con PREFER_SETTINGS
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        // Repositorio de DJI para las dependencias de los módulos del proyecto
+        maven { url 'https://developer.dji.com/maven/' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,70 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+*.aar
+*.so
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+build/
+.gradle/
+.idea/
+.cxx/
+local.properties
+captures/
+.externalNativeBuild/
+.navigation/
+.DS_Store
+*.iml
+*.ipr
+*.iws
+*.rc
+
+# Local configuration file (SDK location, etc.)
+local.properties
+
+# AOSP related files
+.repo/
+
+# Gradle
+.gradle/
+build/
+
+# Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+local.properties
+.DS_Store
+
+# Keystore files
+*.jks
+*.keystore
+
+# Android NDK
+.externalNativeBuild/
+
+# Crashlytics
+crashlytics-build.properties
+
+# Google Services (Firebase)
+google-services.json
+
+# DJI SDK specific files (if any are generated outside of build/ or .gradle/)
+# Si tienes tu API Key de DJI en un archivo de propiedades separado, añádelo aquí.
+# Por ejemplo, si tienes un archivo llamado dji_api_keys.properties:
+# dji_api_keys.properties
+
+# macOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
