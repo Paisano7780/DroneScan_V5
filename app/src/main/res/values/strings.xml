@@ -480,18 +480,5 @@ More refer to the release notes." </string>
     <string name="title_select_yuv_format">Select Image Format</string>
     <string name="title_select_yuv_format_ok">OK</string>
     <string name="title_select_yuv_format_cancel">Cancel</string>
-
-    <!-- Look At preview -->
-    <string name="item_look_at_title">Look At</string>
-    <string name="item_look_at_description">Demonstrate how to use look at</string>
-
-    <!-- Intelligent Flight preview -->
-    <string name="item_intelligent_flight_title">Intelligent Flight</string>
-    <string name="item_intelligent_flight__description">Demonstrate how to use intelligent flight</string>
-
-    <!-- app silently upgrade preview -->
-    <string name="item_app_silently_upgrade_title">APP Silently Upgrade</string>
-    <string name="item_app_silently_upgrade_description">Demonstrate APP Silently Upgrade functions</string>
-    <string name="btn_silently_upgrade_package">Set Silently Upgrade Package</string>
-    <string name="btn_install_test_app">Install Test App</string>
+    ```
 </resources>

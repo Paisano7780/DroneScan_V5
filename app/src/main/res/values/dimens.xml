@@ -99,4 +99,22 @@
     <dimen name="left_button_list_button_margin_top">10dp</dimen>
     <dimen name="left_button_list_button_text_size">14sp</dimen>
     <dimen name="test_log_textsize">17sp</dimen>
+
+    <!-- Dimensiones comunes (puedes ajustarlas) -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Placeholders para dimensiones del DJI UX SDK -->
+    <dimen name="uxsdk_1_dp">1dp</dimen>
+    <dimen name="uxsdk_2_dp">2dp</dimen>
+    <dimen name="uxsdk_5_dp">5dp</dimen>
+    <dimen name="uxsdk_10_dp">10dp</dimen>
+    <dimen name="uxsdk_14_dp">14dp</dimen>
+    <dimen name="uxsdk_20_dp">20dp</dimen>
+    <dimen name="uxsdk_30_dp">30dp</dimen>
+    <dimen name="uxsdk_50_dp">50dp</dimen>
+    <dimen name="uxsdk_100_dp">100dp</dimen>
+    <dimen name="uxsdk_500_dp">500dp</dimen>
+    <!-- Añade más dimensiones uxsdk_... según los errores que veas en el log -->
+    <dimen name="dialog_multi_rc_gimbal_source_change_width">300dp</dimen>
 </resources>

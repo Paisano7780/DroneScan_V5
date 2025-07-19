@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <color name="white_medium_transparent">#4cffffff</color>
     <color name="white_transparent">#33ffffff</color>
@@ -86,5 +86,23 @@
 
     <color name="mission_edit_panel_container_bg">#FF111610</color>
     <color name="white_alpha_016">#29FFFFFF</color>
+
+    <!-- Colores base de Android Material Design (puedes ajustarlos) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+
+    <!-- Placeholders para colores del DJI UX SDK -->
+    <color name="uxsdk_white">#FFFFFFFF</color>
+    <color name="uxsdk_black">#FF000000</color>
+    <color name="uxsdk_gray">#FF888888</color>
+    <color name="uxsdk_dark_gray">#FF444444</color>
+    <color name="uxsdk_red">#FFFF0000</color>
+    <color name="uxsdk_blue">#FF0000FF</color>
+    <color name="uxsdk_green">#FF00FF00</color>
+    <!-- Añade más colores uxsdk_... según los errores que veas en el log -->
 
 </resources>

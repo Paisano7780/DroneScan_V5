@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO: Customize this file to specify shared preferences that should be backed up.
+         See https://developer.android.com/about/versions/12/backup-restore#xml-format
+    -->
+    <exclude domain="sharedpref" path="."/>
+</full-backup-content>
