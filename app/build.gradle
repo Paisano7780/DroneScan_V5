@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.dronescan.msdksample' // Asegúrate de que este sea tu namespace
-    compileSdk 34 // O la versión más reciente que uses
+    namespace 'com.dronescan.msdksample'
+    compileSdk 34
 
     defaultConfig {
-        applicationId "com.dronescan.msdksample" // ¡ESTO DEBE COINCIDIR EXACTAMENTE CON TU ESTRUCTURA DE CARPETAS!
+        applicationId "com.dronescan.msdksample"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -22,14 +22,11 @@ android {
             useSupportLibrary true
         }
 
-        // *** CAMBIO CLAVE AQUÍ: Definimos API_KEY y dji_sdk_app_id como manifestPlaceholders ***
-        // ¡REEMPLAZA "TU_API_KEY_DE_DJI_AQUI" CON TU CLAVE REAL DE DJI!
-        // ¡REEMPLAZA "your_dji_app_id_here" CON TU APP ID REAL DE DJI si es diferente de la API Key!
+        // --- ¡IMPORTANTE! REEMPLAZA ESTOS VALORES CON TUS CLAVES REALES DE DJI ---
         manifestPlaceholders = [
-                API_KEY: "3196948d4ecce3e531187b11",
-                dji_sdk_app_id: "com.dronescan.msdksample"
+                API_KEY: "3196948d4ecce3e531187b11", // Reemplaza con tu API Key real de DJI
+                dji_sdk_app_id: "com.dronescan.msdksample" // Reemplaza con tu App ID real de DJI
         ]
-        // Eliminamos la línea buildConfigField "String", "DJI_API_KEY", "..."
     }
 
     buildTypes {
@@ -39,21 +36,20 @@ android {
         }
     }
 
-    // Configuración de compatibilidad JVM para Java y Kotlin
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17 // Asegúrate de que Java y Kotlin usen la misma versión
+        sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '17' // Debe coincidir con compileOptions.targetCompatibility
+        jvmTarget = '17'
     }
 
     buildFeatures {
         compose true
-        dataBinding true // Habilita Data Binding si lo usas o lo usarás
+        dataBinding true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1' // Asegúrate de que esta versión sea compatible con tu Kotlin (1.9.0)
+        kotlinCompilerExtensionVersion '1.5.1'
     }
     packaging {
         resources {
@@ -63,7 +59,7 @@ android {
 }
 
 dependencies {
-    // Dependencias de AndroidX y Compose (mantener actualizadas si es posible)
+    // Dependencias de AndroidX y Compose (actualizadas a versiones estables recientes)
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
     implementation 'androidx.activity:activity-compose:1.9.0'
@@ -71,7 +67,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material3:material3:1.2.1' // Versión específica para Material3
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
@@ -80,8 +76,14 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
-    // Dependencias del DJI SDK (¡OPTIMIZADAS!)
+    // Dependencias del DJI SDK
     implementation 'com.dji:dji-sdk-v5-aircraft:5.15.0'
     implementation 'com.dji:dji-sdk-v5-networkImp:5.15.0'
-    // kapt 'com.android.databinding:compiler:3.2.0-alpha10' // Comenta esta línea si da problemas con AGP 8.x.x
+    // Si después de estos cambios persisten errores de "Unresolved reference" para clases como BaseProduct, DJIError, etc.,
+    // considera descomentar estas líneas:
+    // implementation 'com.dji:dji-sdk-v5-base:5.15.0'
+    // implementation 'com.dji:dji-sdk-v5-common:5.15.0'
+
+    // Comentado: El compilador de Data Binding suele ser gestionado automáticamente por AGP 8.x.x
+    // kapt 'com.android.databinding:compiler:3.2.0-alpha10'
 }

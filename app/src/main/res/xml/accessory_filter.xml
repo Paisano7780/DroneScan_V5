@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Filtro para accesorios USB de DJI -->
+    <usb-accessory model="DJI_DEBUG" manufacturer="DJI" />
+    <usb-accessory model="DJI_SDK" manufacturer="DJI" />
+    <usb-accessory model="DJI_SDK_DEBUG" manufacturer="DJI" />
+</resources>

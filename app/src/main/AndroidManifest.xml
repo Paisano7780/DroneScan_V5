@@ -51,14 +51,12 @@
         tools:replace="android:usesCleartextTraffic">
 
         <!-- Configuración del SDK de DJI -->
-        <!-- *** CAMBIO CLAVE AQUÍ: Referenciamos los placeholders definidos en build.gradle *** -->
         <meta-data
             android:name="com.dji.sdk.API_KEY"
-            android:value="${API_KEY}" />
+            android:value="${API_KEY}" /> <!-- Referencia al placeholder definido en build.gradle -->
         <meta-data
             android:name="dji_sdk_app_id"
-            android:value="${dji_sdk_app_id}" />
-
+            android:value="${dji_sdk_app_id}" /> <!-- Referencia al placeholder definido en build.gradle -->
 
         <!-- Declaración de MainActivity -->
         <activity
@@ -81,6 +79,15 @@
                 android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                 android:resource="@xml/accessory_filter" />
         </activity>
+
+        <!-- Las siguientes declaraciones de servicios y actividades de DJI
+             NO DEBEN DUPLICARSE aquí si ya están en el manifiesto interno del SDK.
+             El sistema de fusión de manifiestos de Android se encarga de añadirlas.
+             Si persisten errores de clase no encontrada, es un problema de dependencias, no de manifiesto duplicado.
+             Por lo tanto, las eliminamos de tu manifiesto principal para evitar advertencias. -->
+        <!-- <service android:name="dji.sdk.sdkmanager.DJIUsbService" ... /> -->
+        <!-- <activity android:name="dji.sdk.sdkmanager.DJIUsbAccessoryAttachActivity" ... /> -->
+        <!-- <provider android:name="dji.sdk.sdkmanager.DJIFileProvider" ... /> -->
 
         <!-- Componente de la aplicación para el SDK de DJI -->
         <uses-library android:name="com.dji.mobile.api" android:required="false"/>
