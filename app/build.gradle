@@ -1,20 +1,20 @@
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-}
+// app/build.gradle (en la carpeta app/)
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    namespace = "com.dronescan.msdksample" // Asegúrate de que este sea tu namespace
-    compileSdk = 34
+    namespace 'com.dronescan.msdksample' // Asegúrate de que este sea tu namespace
+    compileSdkVersion 33 // Compatible con AGP 7.4.2
+    buildToolsVersion "33.0.0" // Asegúrate de tener esta versión instalada en SDK Manager
 
     defaultConfig {
-        applicationId = "com.dronescan.msdksample" // Asegúrate de que este sea tu ID de aplicación
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId "com.dronescan.msdksample" // Asegúrate de que este sea tu ID de aplicación
+        minSdkVersion 24
+        targetSdkVersion 33 // Compatible con AGP 7.4.2
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -22,29 +22,26 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose = true
-        viewBinding = true
-        dataBinding = true
+        compose true
+        viewBinding true
+        dataBinding true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1" // Asegúrate de que esta versión sea compatible con tu versión de Kotlin
+        kotlinCompilerExtensionVersion = "1.5.1" // Compatible con Kotlin 1.8.10
     }
-    packaging {
+    packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/DEPENDENCIES"
@@ -61,7 +58,7 @@ android {
     }
 
     sourceSets {
-        getByName("main") {
+        main {
             java.srcDirs("src/main/java", "src/main/kotlin")
             res.srcDirs("src/main/res")
             assets.srcDirs("src/main/assets")
@@ -70,54 +67,54 @@ android {
     }
 
     lintOptions {
-        disable("MultipleResolutions", "StringFormatMatches")
+        disable "MultipleResolutions", "StringFormatMatches"
     }
 }
 
 dependencies {
     // Dependencias de AndroidX Core
-    implementation("androidx.core:core-ktx:${rootProject.extra["androidxCoreKtx"]}")
+    implementation "androidx.core:core-ktx:${rootProject.ext.androidxCoreKtx}"
 
     // Dependencias de AndroidX Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.extra["androidxLifecycleRuntimeKtx"]}")
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.ext.androidxLifecycleRuntimeKtx}"
 
     // Dependencias de AndroidX Activity
-    implementation("androidx.activity:activity-compose:${rootProject.extra["androidxActivityCompose"]}")
+    implementation "androidx.activity:activity-compose:${rootProject.ext.androidxActivityCompose}"
 
     // Jetpack Compose BOM
-    implementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
+    implementation platform("androidx.compose:compose-bom:${rootProject.ext.androidxComposeBom}")
 
     // Jetpack Compose UI
-    implementation("androidx.compose.ui:ui:${rootProject.extra["androidxUi"]}")
-    implementation("androidx.compose.ui:ui-graphics:${rootProject.extra["androidxUiGraphics"]}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.extra["androidxUiToolingPreview"]}")
+    implementation "androidx.compose.ui:ui:${rootProject.ext.androidxUi}"
+    implementation "androidx.compose.ui:ui-graphics:${rootProject.ext.androidxUiGraphics}"
+    implementation "androidx.compose.ui:ui-tooling-preview:${rootProject.ext.androidxUiToolingPreview}"
 
     // Material Design 3 (Compose)
-    implementation("androidx.compose.material3:material3:${rootProject.extra["androidxMaterial3"]}")
+    implementation "androidx.compose.material3:material3:${rootProject.ext.androidxMaterial3}"
 
     // Dependencias para pruebas
-    testImplementation("junit:junit:${rootProject.extra["junit"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidxJunit"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["androidxEspressoCore"]}")
-    androidTestImplementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["androidxUiTestJunit4"]}")
-    debugImplementation("androidx.compose.ui:ui-tooling:${rootProject.extra["androidxUiTooling"]}")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:${rootProject.extra["androidxUiTooling"]}")
+    testImplementation "junit:junit:${rootProject.ext.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.androidxJunit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.androidxEspressoCore}"
+    androidTestImplementation platform("androidx.compose:compose-bom:${rootProject.ext.androidxComposeBom}")
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:${rootProject.ext.androidxUiTestJunit4}"
+    debugImplementation "androidx.compose.ui:ui-tooling:${rootProject.ext.androidxUiTooling}"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:${rootProject.ext.androidxUiTooling}"
 
     // Dependencias del DJI Mobile SDK (Versión 5.x)
-    // Se han añadido todos los módulos que el log indicaba como "Could not find"
-    implementation("com.dji:dji-sdk-v5-aircraft:${rootProject.extra["dji_sdk_version"]}")
-    compileOnly("com.dji:dji-sdk-v5-aircraft-provided:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-networkImp:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-common:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-component:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-keyvalue:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-manager:${rootProject.extra["dji_sdk_version"]}")
-    implementation("com.dji:dji-sdk-v5-utils:${rootProject.extra["dji_sdk_version"]}")
-    // Módulo UX SDK (si lo tienes como un módulo de código fuente en tu proyecto)
-    implementation(project(":uxsdk"))
+    implementation "com.dji:dji-sdk-v5-aircraft:${rootProject.ext.dji_sdk_version}"
+    compileOnly "com.dji:dji-sdk-v5-aircraft-provided:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-networkImp:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-common:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-component:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-keyvalue:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-manager:${rootProject.ext.dji_sdk_version}"
+    implementation "com.dji:dji-sdk-v5-utils:${rootProject.ext.dji_sdk_version}"
+
+    // CAMBIADO: El UX SDK ahora es una dependencia de librería pre-compilada
+    implementation "com.dji:dji-uxsdk:${rootProject.ext.dji_sdk_version}"
 
     // Dependencias de ZXing para escaneo de códigos de barras/QR
-    implementation("com.google.zxing:core:${rootProject.extra["zxingCore"]}")
-    implementation("com.journeyapps:zxing-android-embedded:${rootProject.extra["zxingAndroidEmbeddedVersion"]}")
+    implementation "com.google.zxing:core:${rootProject.ext.zxingCore}"
+    implementation "com.journeyapps:zxing-android-embedded:${rootProject.ext.zxingAndroidEmbeddedVersion}"
 }

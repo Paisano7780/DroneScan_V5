@@ -1,4 +1,4 @@
-// settings.gradle.kts (en la raíz de tu proyecto DroneScan_V3)
+// settings.gradle
 
 pluginManagement {
     repositories {
@@ -7,17 +7,20 @@ pluginManagement {
         mavenCentral()
     }
 }
-
 dependencyResolutionManagement {
-    // Usamos PREFER_PROJECT para que los repositorios definidos aquí
-    // sean los preferidos y los módulos no intenten añadir los suyos propios.
-    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        google() // Repositorio de Google Maven (para AndroidX, etc.)
-        mavenCentral() // Repositorio central de Maven (para DJI SDK v5.15.0 y muchas otras librerías)
-        // Se han ELIMINADO los repositorios específicos de DJI y Mapbox.
+        google()
+        mavenCentral()
+        // Repositorio oficial de DJI Mobile SDK (el sample lo usa)
+        maven { url 'https://developer.dji.com/maven/' }
+        // Si el UX SDK necesita Mapbox y no quieres usar un token,
+        // la única opción es eliminar el módulo UX SDK o sus dependencias de Mapbox.
+        // Si el sample de DJI usa Mapbox, también incluiría su repositorio aquí:
+        // maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
     }
 }
 
 rootProject.name = "DroneScan_V3" // Asegúrate de que este sea el nombre real de tu proyecto
-include(":app", ":uxsdk") // Incluye ambos módulos directamente, ya que están en la raíz
+include ':app' // CAMBIADO: Solo incluye el módulo 'app'. El UXSDK será una dependencia de librería.
+// ELIMINADO: include ':uxsdk'

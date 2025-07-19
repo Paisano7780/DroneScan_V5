@@ -1,65 +1,59 @@
-// uxsdk/build.gradle.kts (en la carpeta uxsdk/)
-
-plugins {
-    id("com.android.library") // Es un módulo de librería, no de aplicación
-    id("org.jetbrains.kotlin.android")
-}
+// uxsdk/build.gradle (en la carpeta uxsdk/)
+apply plugin: 'com.android.library' // Es un módulo de librería, no de aplicación
+apply plugin: 'kotlin-android'
 
 android {
-    namespace = "dji.v5.ux" // Asegúrate de que este sea el namespace correcto para tu UX SDK
-    compileSdk = 34
+    namespace 'dji.v5.ux' // Asegúrate de que este sea el namespace correcto para tu UX SDK
+    compileSdkVersion 33 // Compatible con AGP 7.4.2
+    buildToolsVersion "33.0.0" // Asegúrate de tener esta versión instalada en SDK Manager
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 34 // Alineado con el módulo 'app'
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        minSdkVersion 24
+        targetSdkVersion 33 // Compatible con AGP 7.4.2
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose = true
-        viewBinding = true
-        dataBinding = true
+        compose true
+        viewBinding true
+        dataBinding true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1" // Asegúrate de que esta versión sea compatible con tu versión de Kotlin
+        kotlinCompilerExtensionVersion = "1.5.1" // Compatible con Kotlin 1.8.10
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE"
-            excludes += "META-INF/LICENSE.txt"
-            excludes += "META-INF/NOTICE"
-            excludes += "META-INF/NOTICE.txt"
-            excludes += "META-INF/*.kotlin_module"
-            pickFirsts += "META-INF/services/com.google.zxing.client.android.encode.EncodeWorker"
-        }
-        jniLibs {
-            useLegacyPackaging = true
-        }
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/DEPENDENCIES'
     }
 
     sourceSets {
-        getByName("main") {
+        main {
             java.srcDirs("src/main/java", "src/main/kotlin")
             res.srcDirs("src/main/res")
             assets.srcDirs("src/main/assets")
@@ -68,58 +62,32 @@ android {
     }
 
     lintOptions {
-        disable("MultipleResolutions", "StringFormatMatches")
+        disable "MultipleResolutions", "StringFormatMatches"
     }
 }
 
 dependencies {
-    // Dependencias de AndroidX Core
-    implementation("androidx.core:core-ktx:${rootProject.extra["androidxCoreKtx"]}")
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlin_version}"
 
-    // Dependencias de AndroidX Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.extra["androidxLifecycleRuntimeKtx"]}")
+    // Dependencias de AndroidX necesarias para el UX SDK
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.recyclerview:recyclerview:1.3.2"
+    implementation "androidx.multidex:multidex:2.0.1"
 
-    // Dependencias de AndroidX Activity
-    implementation("androidx.activity:activity-compose:${rootProject.extra["androidxActivityCompose"]}")
+    // DJI SDK principal (el módulo UX SDK necesita esto para funcionar)
+    api "com.dji:dji-sdk-v5-aircraft:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-networkImp:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-common:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-component:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-keyvalue:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-manager:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-utils:${rootProject.ext.dji_sdk_version}"
 
-    // Jetpack Compose BOM
-    implementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
-
-    // Jetpack Compose UI
-    implementation("androidx.compose.ui:ui:${rootProject.extra["androidxUi"]}")
-    implementation("androidx.compose.ui:ui-graphics:${rootProject.extra["androidxUiGraphics"]}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.extra["androidxUiToolingPreview"]}")
-
-    // Material Design 3 (Compose)
-    implementation("androidx.compose.material3:material3:${rootProject.extra["androidxMaterial3"]}")
-
-    // Dependencias para pruebas
-    testImplementation("junit:junit:${rootProject.extra["junit"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidxJunit"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["androidxEspressoCore"]}")
-    androidTestImplementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["androidxUiTestJunit4"]}")
-    debugImplementation("androidx.compose.ui:ui-tooling:${rootProject.extra["androidxUiTooling"]}")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:${rootProject.extra["androidxUiTooling"]}")
-
-    // Dependencias del DJI Mobile SDK (Versión 5.x)
-    // El UX SDK necesita estas dependencias del SDK base
-    api("com.dji:dji-sdk-v5-aircraft:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-networkImp:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-common:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-component:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-keyvalue:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-manager:${rootProject.extra["dji_sdk_version"]}")
-    api("com.dji:dji-sdk-v5-utils:${rootProject.extra["dji_sdk_version"]}")
-
-    // Dependencia del DJI UX SDK (el propio módulo UX SDK)
-    api("com.dji:dji-uxsdk:${rootProject.extra["dji_sdk_version"]}")
-
-    // Se han ELIMINADO las dependencias de Mapbox de aquí.
-    // Si el UX SDK no puede compilar sin ellas, el build fallará con "Unresolved reference"
-    // dentro del código del UX SDK, indicando una dependencia fuerte.
-
-    // Dependencias de ZXing para escaneo de códigos de barras/QR
-    implementation("com.google.zxing:core:${rootProject.extra["zxingCore"]}")
-    implementation("com.journeyapps:zxing-android-embedded:${rootProject.extra["zxingAndroidEmbeddedVersion"]}")
+    // Test
+    testImplementation "junit:junit:${rootProject.ext.junit}"
+    androidTestImplementation "androidx.test.ext:junit:${rootProject.ext.androidxJunit}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.ext.androidxEspressoCore}"
 }

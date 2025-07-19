@@ -1,44 +1,53 @@
-// build.gradle.kts (en la raíz de tu proyecto DroneScan_V3)
-
-plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-}
+// build.gradle (raíz del proyecto)
 
 buildscript {
     ext {
         // Define las versiones aquí para usarlas en los módulos
-        set("kotlin_version", "1.9.0")
-        set("agp_version", "8.1.4")
-        set("dji_sdk_version", "5.15.0")
-        set("androidxCoreKtx", "1.9.0")
-        set("androidxLifecycleRuntimeKtx", "2.6.2")
-        set("androidxActivityCompose", "1.8.2")
-        set("androidxComposeBom", "2023.08.00")
-        set("androidxUi", "1.5.4")
-        set("androidxUiGraphics", "1.5.4")
-        set("androidxUiTooling", "1.5.4")
-        set("androidxUiToolingPreview", "1.5.4")
-        set("androidxMaterial3", "1.1.2")
-        set("junit", "4.13.2")
-        set("androidxJunit", "1.1.5")
-        set("androidxEspressoCore", "3.5.1")
-        set("androidxUiTestJunit4", "1.5.4")
-        set("zxingCore", "3.5.3")
-        set("zxingAndroidEmbeddedVersion", "4.3.0")
+        kotlin_version = '1.8.10' // Compatible con AGP 7.4.2
+        agp_version = '7.4.2' // Compatible con Gradle 7.6.2
+        dji_sdk_version = '5.15.0' // Versión del SDK de DJI
+
+        // Versiones de librerías AndroidX y Compose
+        androidxCoreKtx = '1.9.0'
+        androidxLifecycleRuntimeKtx = '2.6.2'
+        androidxActivityCompose = '1.8.2'
+        androidxComposeBom = '2023.08.00'
+        androidxUi = '1.5.4'
+        androidxUiGraphics = '1.5.4'
+        androidxUiTooling = '1.5.4'
+        androidxUiToolingPreview = '1.5.4'
+        androidxMaterial3 = '1.1.2'
+        junit = '4.13.2'
+        androidxJunit = '1.1.5'
+        androidxEspressoCore = '3.5.1'
+        androidxUiTestJunit4 = '1.5.4'
+        zxingCore = '3.5.3'
+        zxingAndroidEmbeddedVersion = '4.3.0'
     }
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://developer.dji.com/maven/' } // Repositorio de DJI para plugins de buildscript
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:${rootProject.extra["agp_version"]}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlin_version"]}")
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-// ELIMINADO: El bloque allprojects para repositorios, ya que settings.gradle.kts lo maneja.
+// Este bloque es CRÍTICO y debe estar presente para que funcione con PREFER_SETTINGS
+// y para que el UX SDK (como dependencia de librería) encuentre sus dependencias de DJI y Mapbox.
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://developer.dji.com/maven/' } // Repositorio de DJI para dependencias de módulos
 
-tasks.register("clean", Delete::class) {
-    delete(layout.buildDirectory.get().asFile)
+
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
