@@ -8,13 +8,13 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        // ¡Asegúrate de que esta línea esté presente y correcta!
         maven { url 'https://developer.dji.com/maven/' }
     }
 }
-
 rootProject.name = "DroneScan_V5"
 include ':app'

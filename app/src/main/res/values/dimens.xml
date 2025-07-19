@@ -117,4 +117,6 @@
     <dimen name="uxsdk_500_dp">500dp</dimen>
     <!-- Añade más dimensiones uxsdk_... según los errores que veas en el log -->
     <dimen name="dialog_multi_rc_gimbal_source_change_width">300dp</dimen>
+    <!-- ¡NUEVO! Placeholder para dp_206_in_sw640 -->
+    <dimen name="dp_206_in_sw640">206dp</dimen>
 </resources>

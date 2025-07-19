@@ -2,70 +2,78 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos de Internet y red -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- Permisos para conectividad USB y serial (para el control remoto) -->
-    <uses-permission android:name="android.hardware.usb.host" />
-    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
-
-    <!-- Permisos de ubicación (necesarios para telemetría del dron) -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Para ubicación en segundo plano -->
-
-    <!-- Permisos de almacenamiento (para guardar registros y fotos) -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" /> <!-- Para Android 11+ para acceso completo a archivos, si es necesario -->
-
-    <!-- Permisos para el control del dron y la cámara -->
+    <!-- Permisos necesarios para el DJI SDK (declarados una sola vez) -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Para grabación de video si se activa el audio -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- Para ventanas flotantes -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- Para actualizaciones silenciosas, si se implementan -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Para Android 12+ -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" /> <!-- Para Android 10+ y acceso amplio a almacenamiento -->
 
-    <!-- Características de hardware que tu aplicación usará -->
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
+    <!-- Características de hardware requeridas -->
+    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
+    <!-- Define el paquete de la aplicación -->
     <application
-        tools:replace="android:usesCleartextTraffic"
+        android:name=".MApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name_aircraft"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DroneScan_V5"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        tools:replace="android:usesCleartextTraffic">
 
-        <!-- Actividad principal de la aplicación -->
+        <!-- Configuración del SDK de DJI -->
+        <!-- *** CAMBIO CLAVE AQUÍ: Referenciamos los placeholders definidos en build.gradle *** -->
+        <meta-data
+            android:name="com.dji.sdk.API_KEY"
+            android:value="${API_KEY}" />
+        <meta-data
+            android:name="dji_sdk_app_id"
+            android:value="${dji_sdk_app_id}" />
+
+
+        <!-- Declaración de MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name_aircraft"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.DroneScan_V5">
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- Soporte para la conexión USB del DJI RC -->
+            <!-- Filtro para el modo de depuración de USB de DJI -->
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
@@ -74,32 +82,9 @@
                 android:resource="@xml/accessory_filter" />
         </activity>
 
-        <!-- DJI SDK Key - ¡Reemplaza YOUR_DJI_SDK_APP_KEY_HERE con tu clave real! -->
-        <meta-data
-            android:name="com.dji.sdk.API_KEY"
-            android:value="3196948d4ecce3e531187b11" />
-
-        <!-- DJI SDK Service (para versiones 4.x del SDK, aún se usa para ciertos módulos) -->
-        <service
-            android:name="dji.sdk.sdkmanager.DJISDKService"
-            android:exported="false"
-            android:process=":dji.sdk.sdkmanager" />
-
-        <!-- Para Android 12+ / Target SDK 31+, si usas SDK 4.x y los servicios no se descubren automáticamente -->
-        <service android:name="dji.sdk.base.dji.internal.DJIBluetoothService"
-            android:exported="false"
-            tools:node="remove" />
-
-        <!-- Proveedores de archivos si necesitas compartir archivos con otras apps -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+        <!-- Componente de la aplicación para el SDK de DJI -->
+        <uses-library android:name="com.dji.mobile.api" android:required="false"/>
+        <uses-library android:name="com.dji.mobile.flight.api" android:required="false"/>
 
     </application>
 </manifest>

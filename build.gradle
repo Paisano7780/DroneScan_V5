@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.8.10'
+        kotlin_version = '1.9.0'
         agp_version = '8.1.4'
         dji_sdk_version = '5.15.0'
 
@@ -16,8 +16,7 @@ buildscript {
         androidxUiToolingPreview = '1.5.4'
         androidxMaterial3 = '1.1.2'
 
-        // *** ¡NUEVO! Añadida la versión de AppCompat ***
-        androidxAppCompat = '1.7.0' // O la versión que prefieras usar para appcompat
+        androidxAppCompat = '1.7.0'
 
         junit = '4.13.2'
         androidxJunit = '1.2.1'
@@ -38,13 +37,14 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://developer.dji.com/maven/' }
-    }
-}
+// *** CAMBIO CLAVE AQUÍ: Eliminado el bloque allprojects y sus repositories ***
+// allprojects {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven { url 'https://developer.dji.com/maven/' }
+//    }
+// }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
