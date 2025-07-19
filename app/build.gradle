@@ -1,115 +1,87 @@
-// app/build.gradle (en la carpeta app/)
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt") // Necesario para Data Binding y Hilt si lo usas
+}
 
 android {
-    namespace 'com.dronescan.msdksample'
-    compileSdkVersion 34 // Mantenemos 34
-    buildToolsVersion "34.0.0" // Asegúrate de tener esta versión instalada
+    namespace = "com.dronescan.msdksample"
+    compileSdk = 34 // Asegúrate de que esta versión sea compatible con tus dependencias
 
     defaultConfig {
-        applicationId "com.dronescan.msdksample"
-        minSdkVersion 24
-        targetSdkVersion 34 // Mantenemos 34
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "com.dronescan.msdksample"
+        minSdk = 24 // DJI SDK v5 requiere al menos API 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-        manifestPlaceholders["API_KEY"] = project.AIRCRAFT_API_KEY
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //isMinifyEnabled = false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose true
-        viewBinding true
-        dataBinding true
+        compose = true
+        dataBinding = true // Habilita Data Binding
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1" // Compatible con Kotlin 1.8.10
+        kotlinCompilerExtensionVersion = "1.5.1" // Asegúrate de que esta versión sea compatible con tu versión de Kotlin
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE"
-            excludes += "META-INF/LICENSE.txt"
-            excludes += "META-INF/NOTICE"
-            excludes += "META-INF/NOTICE.txt"
-            excludes += "META-INF/*.kotlin_module"
-            pickFirsts += "META-INF/services/com.google.zxing.client.android.encode.EncodeWorker"
         }
-        jniLibs {
-            useLegacyPackaging = true
-        }
-    }
-
-    sourceSets {
-        main {
-            java.srcDirs("src/main/java", "src/main/kotlin")
-            res.srcDirs("src/main/res")
-            assets.srcDirs("src/main/assets")
-            jniLibs.srcDirs("src/main/jniLibs")
-        }
-    }
-
-    lintOptions {
-        disable "MultipleResolutions", "StringFormatMatches"
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
+    // Dependencias de AndroidX y UI
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation(platform("androidx.compose:compose-bom:2024.04.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
 
-    implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreKtx"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.androidxLifecycleRuntimeKtx"
-    implementation "androidx.activity:activity-compose:$rootProject.ext.androidxActivityCompose"
-    implementation platform("androidx.compose:compose-bom:$rootProject.ext.androidxComposeBom")
-    implementation "androidx.compose.ui:ui:$rootProject.ext.androidxUi"
-    implementation "androidx.compose.ui:ui-graphics:$rootProject.ext.androidxUiGraphics"
-    implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.ext.androidxUiToolingPreview"
-    implementation "androidx.compose.material3:material3:$rootProject.ext.androidxMaterial3"
+    // *** Importante: Asegúrate de que appcompat esté incluido ***
+    implementation("androidx.appcompat:appcompat:1.7.0") // Versión estable y reciente
 
-    testImplementation "junit:junit:$rootProject.ext.junit"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCore"
-    androidTestImplementation platform("androidx.compose:compose-bom:$rootProject.ext.androidxComposeBom")
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$rootProject.ext.androidxUiTestJunit4"
-    debugImplementation "androidx.compose.ui:ui-tooling:$rootProject.ext.androidxUiTooling"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$rootProject.ext.androidxUiTooling"
+    // Dependencias del DJI SDK v5 (versiones 5.15.0 según tu log)
+    // Asegúrate de que estas versiones coincidan con las que estás tratando de usar
+    //implementation("com.dji:dji-sdk-v5-common:5.15.0")
+    //implementation("com.dji:dji-sdk-v5-component:5.15.0")
+    //implementation("com.dji:dji-sdk-v5-keyvalue:5.15.0")
+    //implementation("com.dji:dji-sdk-v5-manager:5.15.0")
+    implementation("com.dji:dji-sdk-v5-aircraft:5.15.0") // Esta fue la que causó las advertencias de recursos
 
-    // DJI SDK (solo los módulos base necesarios para tu app sin UX SDK)
-    implementation "com.dji:dji-sdk-v5-aircraft:$rootProject.ext.dji_sdk_version"
-    compileOnly "com.dji:dji-sdk-v5-aircraft-provided:$rootProject.ext.dji_sdk_version"
-    implementation "com.dji:dji-sdk-v5-networkImp:$rootProject.ext.dji_sdk_version"
-    // Los módulos 'common', 'component', 'keyvalue', 'manager', 'utils'
-    // deberían ser dependencias transitivas de 'aircraft' o 'networkImp'.
-    // Los mantenemos explícitamente porque el log los indicó.
-    //implementation "com.dji:dji-sdk-v5-common:$rootProject.ext.dji_sdk_version"
-    //implementation "com.dji:dji-sdk-v5-component:$rootProject.ext.dji_sdk_version"
-    //implementation "com.dji:dji-sdk-v5-keyvalue:$rootProject.ext.dji_sdk_version"
-    //implementation "com.dji:dji-sdk-v5-manager:$rootProject.ext.dji_sdk_version"
-    //implementation "com.dji:dji-sdk-v5-utils:$rootProject.ext.dji_sdk_version"
+    // Si estás usando el UX SDK, asegúrate de tenerlo también
+    // implementation("com.dji:dji-sdk-v5-uxsdk:5.15.0") // Descomenta si lo necesitas
 
-    // ELIMINADO: Dependencia al módulo uxsdk
-    // ELIMINADO: Dependencias de Mapbox
-
-    implementation "com.google.zxing:core:$rootProject.ext.zxingCore"
-    implementation "com.journeyapps:zxing-android-embedded:$rootProject.ext.zxingAndroidEmbedded"
+    // Dependencias de prueba
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.04.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

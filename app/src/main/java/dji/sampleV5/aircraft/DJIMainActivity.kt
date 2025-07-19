@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
-import com.dronescan.msdksample.ui.theme.DroneScan_V3Theme
+import com.dronescan.msdksample.ui.theme.DroneScan_V5Theme
 import dji.v5.common.error.IDJIError
 import dji.v5.manager.SDKManager
 import dji.v5.manager.interfaces.SDKManagerCallback
@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DroneScan_V3Theme {
+            DroneScan_V5Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -402,7 +402,7 @@ fun ScanScreen(product: AircraftManager?, onPhotoCaptured: (Bitmap) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DroneScan_V3Theme {
+    DroneScan_V5Theme {
         LoadingScreen("Iniciando aplicación...")
     }
 }
