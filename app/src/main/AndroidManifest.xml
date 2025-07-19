@@ -41,6 +41,7 @@
         android:required="false" />
 
     <application
+        tools:replace="android:usesCleartextTraffic"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -79,14 +80,12 @@
             android:value="3196948d4ecce3e531187b11" />
 
         <!-- DJI SDK Service (para versiones 4.x del SDK, aún se usa para ciertos módulos) -->
-        <!-- Si estás usando el SDK v5, algunos módulos pueden depender de esto. -->
         <service
             android:name="dji.sdk.sdkmanager.DJISDKService"
             android:exported="false"
             android:process=":dji.sdk.sdkmanager" />
 
         <!-- Para Android 12+ / Target SDK 31+, si usas SDK 4.x y los servicios no se descubren automáticamente -->
-        <!-- Aunque estamos preparando el SDK 5, algunos módulos aún pueden requerirlo. -->
         <service android:name="dji.sdk.base.dji.internal.DJIBluetoothService"
             android:exported="false"
             tools:node="remove" />

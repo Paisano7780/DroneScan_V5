@@ -8,21 +8,13 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    // Usamos PREFER_SETTINGS para permitir que los build.gradle de los módulos
-    // (especialmente el allprojects en el build.gradle raíz) definan repositorios.
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
-        // Repositorio oficial de DJI Mobile SDK (necesario para DJI SDK)
         maven { url 'https://developer.dji.com/maven/' }
-        // Si en algún momento necesitas Mapbox, su repositorio iría aquí
-        // maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
     }
 }
 
-rootProject.name = "DroneScan_V5" // Asegúrate de que este sea el nombre real de tu proyecto
-// Renombra los módulos:
-include ':app' // Renombra android-sdk-v5-sample a :app
-project(':app').projectDir = file("SampleCode-V5/android-sdk-v5-sample")
-
+rootProject.name = "DroneScan_V5"
+include ':app'

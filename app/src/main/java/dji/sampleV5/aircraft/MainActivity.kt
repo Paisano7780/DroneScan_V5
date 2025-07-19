@@ -358,8 +358,7 @@ fun ScanScreen(product: AircraftManager?, onPhotoCaptured: (Bitmap) -> Unit) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = scanningText,

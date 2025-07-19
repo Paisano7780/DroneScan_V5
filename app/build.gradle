@@ -1,17 +1,17 @@
 // app/build.gradle (en la carpeta app/)
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt' // Mantenemos kotlin-kapt por si alguna librería lo usa
+apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'com.dronescan.msdksample' // Asegúrate de que este sea tu namespace
-    compileSdkVersion 34 // Compatible con AGP 7.4.2
-    buildToolsVersion "34.0.0" // Asegúrate de tener esta versión instalada en SDK Manager
+    namespace 'com.dronescan.msdksample'
+    compileSdkVersion 34 // CAMBIADO: A 34
+    buildToolsVersion "34.0.0" // Asegúrate de tener esta versión instalada
 
     defaultConfig {
-        applicationId "com.dronescan.msdksample" // Asegúrate de que este sea tu ID de aplicación
+        applicationId "com.dronescan.msdksample"
         minSdkVersion 24
-        targetSdkVersion 34 // Compatible con AGP 7.4.2
+        targetSdkVersion 34 // CAMBIADO: A 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -19,7 +19,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        // Manifest placeholders para claves API (solo DJI)
         manifestPlaceholders["API_KEY"] = project.AIRCRAFT_API_KEY
     }
 
@@ -37,12 +36,12 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        compose true // Esto habilita la funcionalidad de Compose
+        compose true
         viewBinding true
         dataBinding true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1" // Esto especifica la versión del compilador de Compose
+        kotlinCompilerExtensionVersion = "1.5.1" // Compatible con Kotlin 1.8.10
     }
     packagingOptions {
         resources {
@@ -78,22 +77,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
 
-    // Dependencias de AndroidX Core
     implementation "androidx.core:core-ktx:$rootProject.ext.androidxCoreKtx"
-    // Dependencias de AndroidX Lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.androidxLifecycleRuntimeKtx"
-    // Dependencias de AndroidX Activity
     implementation "androidx.activity:activity-compose:$rootProject.ext.androidxActivityCompose"
-    // Jetpack Compose BOM
     implementation platform("androidx.compose:compose-bom:$rootProject.ext.androidxComposeBom")
-    // Jetpack Compose UI
     implementation "androidx.compose.ui:ui:$rootProject.ext.androidxUi"
     implementation "androidx.compose.ui:ui-graphics:$rootProject.ext.androidxUiGraphics"
     implementation "androidx.compose.ui:ui-tooling-preview:$rootProject.ext.androidxUiToolingPreview"
-    // Material Design 3 (Compose)
     implementation "androidx.compose.material3:material3:$rootProject.ext.androidxMaterial3"
 
-    // Dependencias para pruebas
     testImplementation "junit:junit:$rootProject.ext.junit"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidxJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.androidxEspressoCore"
@@ -102,18 +94,15 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$rootProject.ext.androidxUiTooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$rootProject.ext.androidxUiTooling"
 
-    // Dependencias del DJI Mobile SDK (Versión 5.15.0)
     implementation "com.dji:dji-sdk-v5-aircraft:$rootProject.ext.dji_sdk_version"
     compileOnly "com.dji:dji-sdk-v5-aircraft-provided:$rootProject.ext.dji_sdk_version"
     implementation "com.dji:dji-sdk-v5-networkImp:$rootProject.ext.dji_sdk_version"
-    // Añadimos explícitamente los módulos que fallaron en tu log (en 5.15.0)
-    implementation "com.dji:dji-sdk-v5-common:$rootProject.ext.dji_sdk_version"
-    implementation "com.dji:dji-sdk-v5-component:$rootProject.ext.dji_sdk_version"
-    implementation "com.dji:dji-sdk-v5-keyvalue:$rootProject.ext.dji_sdk_version"
-    implementation "com.dji:dji-sdk-v5-manager:$rootProject.ext.dji_sdk_version"
-    implementation "com.dji:dji-sdk-v5-utils:$rootProject.ext.dji_sdk_version"
+    //implementation "com.dji:dji-sdk-v5-common:$rootProject.ext.dji_sdk_version"
+    //implementation "com.dji:dji-sdk-v5-component:$rootProject.ext.dji_sdk_version"
+    //implementation "com.dji:dji-sdk-v5-keyvalue:$rootProject.ext.dji_sdk_version"
+    //implementation "com.dji:dji-sdk-v5-manager:$rootProject.ext.dji_sdk_version"
+    //implementation "com.dji:dji-sdk-v5-utils:$rootProject.ext.dji_sdk_version"
 
-    // Dependencias de ZXing para escaneo de códigos de barras/QR
     implementation "com.google.zxing:core:$rootProject.ext.zxingCore"
     implementation "com.journeyapps:zxing-android-embedded:$rootProject.ext.zxingAndroidEmbedded"
 }

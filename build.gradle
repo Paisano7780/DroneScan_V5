@@ -2,12 +2,10 @@
 
 buildscript {
     ext {
-        // Define las versiones aquí para usarlas en los módulos
-        kotlin_version = '1.8.10' // Versión de Kotlin
-        agp_version = '7.4.2' // Versión de Android Gradle Plugin
-        dji_sdk_version = '5.15.0' // Versión del SDK de DJI
+        kotlin_version = '1.8.10' // Mantener Kotlin 1.8.10, compatible con Compose Compiler 1.5.1
+        agp_version = '8.1.4' // CAMBIADO: Actualizado a AGP 8.1.4
+        dji_sdk_version = '5.15.0'
 
-        // Versiones de librerías AndroidX y Compose
         androidxCoreKtx = '1.9.0'
         androidxLifecycleRuntimeKtx = '2.6.2'
         androidxActivityCompose = '1.8.2'
@@ -18,20 +16,17 @@ buildscript {
         androidxUiToolingPreview = '1.5.4'
         androidxMaterial3 = '1.1.2'
 
-        // Dependencias para pruebas
         junit = '4.13.2'
         androidxJunit = '1.1.5'
         androidxEspressoCore = '3.5.1'
         androidxUiTestJunit4 = '1.5.4'
 
-        // Versiones de ZXing para escaneo de códigos
         zxingCore = '3.5.3'
         zxingAndroidEmbedded = '4.3.0'
     }
     repositories {
         google()
         mavenCentral()
-        // Repositorio de DJI para plugins de buildscript
         maven { url 'https://developer.dji.com/maven/' }
     }
     dependencies {
@@ -40,17 +35,14 @@ buildscript {
     }
 }
 
-// Este bloque es CRÍTICO y debe estar presente para que los submódulos hereden los repositorios.
 allprojects {
     repositories {
         google()
         mavenCentral()
-        // Repositorio de DJI para dependencias de módulos
         maven { url 'https://developer.dji.com/maven/' }
     }
 }
 
-// Definición de la tarea 'clean' en Groovy DSL
-tasks.register('clean', Delete) {
+task clean(type: Delete) {
     delete rootProject.buildDir
 }
