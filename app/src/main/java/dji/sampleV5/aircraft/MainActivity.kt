@@ -1,16 +1,13 @@
 package com.dronescan.msdksample
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,32 +30,31 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import com.dronescan.msdksample.ui.theme.DroneScan_V3Theme
-import dji.v5.common.error.IDJIError
-import dji.v5.manager.SDKManager
-import dji.v5.manager.interfaces.SDKManagerCallback
-import dji.v5.manager.aircraft.AircraftManager
-import dji.v5.manager.aircraft.camera.CameraManager
-import dji.v5.manager.KeyManager
 import dji.v5.common.callback.CommonCallbacks
+import dji.v5.common.error.IDJIError
 import dji.v5.common.key.model.Scope
 import dji.v5.common.key.model.product.ProductKey
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.CONNECTED
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.DISCONNECTED
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.CONNECTING
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.DISCONNECTING
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.NOT_ACTIVATED
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.NOT_SUPPORTED
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.INITIALIZING
-import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.UNKNOWN
+import dji.v5.manager.KeyManager
+import dji.v5.manager.SDKManager
+import dji.v5.manager.aircraft.AircraftManager
+import dji.v5.manager.aircraft.camera.CameraManager
 import dji.v5.manager.aircraft.camera.enums.CameraMode
 import dji.v5.manager.aircraft.camera.enums.CameraShootPhotoMode
-import dji.v5.utils.common.LogUtils
-import dji.v5.utils.common.ToastUtils // Asegúrate de que esta clase exista o reemplaza con android.widget.Toast
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.CONNECTED
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.CONNECTING
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.DISCONNECTED
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.DISCONNECTING
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.INITIALIZING
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.NOT_ACTIVATED
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.NOT_SUPPORTED
+import dji.v5.manager.interfaces.IDeviceManager.DeviceConnectionState.UNKNOWN
+import dji.v5.manager.interfaces.SDKManagerCallback
+import dji.v5.utils.common.ToastUtils
 
 // MainActivity.kt
 class MainActivity : ComponentActivity() {
