@@ -1,5 +1,6 @@
 // settings.gradle
 
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -13,8 +14,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://developer.dji.com/maven/' }
+        // ELIMINADO: Repositorio de Mapbox, ya que el UXSDK no está
+        // maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
     }
 }
 
-rootProject.name = "DroneScan_V5"
+rootProject.name = "DroneScan_V5" // Nombre de tu proyecto raíz
+// CORREGIDO: Solo incluye el módulo 'app'
 include ':app'

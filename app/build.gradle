@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.dronescan.msdksample'
-    compileSdkVersion 34 // CAMBIADO: A 34
+    compileSdkVersion 34 // Mantenemos 34
     buildToolsVersion "34.0.0" // Asegúrate de tener esta versión instalada
 
     defaultConfig {
         applicationId "com.dronescan.msdksample"
         minSdkVersion 24
-        targetSdkVersion 34 // CAMBIADO: A 34
+        targetSdkVersion 34 // Mantenemos 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -94,14 +94,21 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$rootProject.ext.androidxUiTooling"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$rootProject.ext.androidxUiTooling"
 
+    // DJI SDK (solo los módulos base necesarios para tu app sin UX SDK)
     implementation "com.dji:dji-sdk-v5-aircraft:$rootProject.ext.dji_sdk_version"
     compileOnly "com.dji:dji-sdk-v5-aircraft-provided:$rootProject.ext.dji_sdk_version"
     implementation "com.dji:dji-sdk-v5-networkImp:$rootProject.ext.dji_sdk_version"
+    // Los módulos 'common', 'component', 'keyvalue', 'manager', 'utils'
+    // deberían ser dependencias transitivas de 'aircraft' o 'networkImp'.
+    // Los mantenemos explícitamente porque el log los indicó.
     //implementation "com.dji:dji-sdk-v5-common:$rootProject.ext.dji_sdk_version"
     //implementation "com.dji:dji-sdk-v5-component:$rootProject.ext.dji_sdk_version"
     //implementation "com.dji:dji-sdk-v5-keyvalue:$rootProject.ext.dji_sdk_version"
     //implementation "com.dji:dji-sdk-v5-manager:$rootProject.ext.dji_sdk_version"
     //implementation "com.dji:dji-sdk-v5-utils:$rootProject.ext.dji_sdk_version"
+
+    // ELIMINADO: Dependencia al módulo uxsdk
+    // ELIMINADO: Dependencias de Mapbox
 
     implementation "com.google.zxing:core:$rootProject.ext.zxingCore"
     implementation "com.journeyapps:zxing-android-embedded:$rootProject.ext.zxingAndroidEmbedded"

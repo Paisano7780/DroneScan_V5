@@ -338,7 +338,8 @@ fun ScanScreen(product: AircraftManager?, onPhotoCaptured: (Bitmap) -> Unit) {
                     }
                 })
             } else {
-                ToastUtils.showToast("CameraManager no disponible.")
+                scanningText = "Esperando conexión con el drone..."
+                capturedImage = null
             }
         } else {
             scanningText = "Esperando conexión con el drone..."

@@ -2,10 +2,11 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.8.10' // Mantener Kotlin 1.8.10, compatible con Compose Compiler 1.5.1
-        agp_version = '8.1.4' // CAMBIADO: Actualizado a AGP 8.1.4
-        dji_sdk_version = '5.15.0'
+        kotlin_version = '1.8.10' // Compatible con Compose Compiler 1.5.1
+        agp_version = '8.1.4' // Actualizado a AGP 8.1.4
+        dji_sdk_version = '5.15.0' // Versión del SDK de DJI
 
+        // Mantener las versiones de AndroidX y Compose
         androidxCoreKtx = '1.9.0'
         androidxLifecycleRuntimeKtx = '2.6.2'
         androidxActivityCompose = '1.8.2'
@@ -35,11 +36,15 @@ buildscript {
     }
 }
 
+// Este bloque es CRÍTICO y debe estar presente para que funcione con PREFER_SETTINGS
+// y para que el módulo 'app' encuentre sus dependencias de DJI.
 allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://developer.dji.com/maven/' }
+        maven { url 'https://developer.dji.com/maven/' } // Para dependencias de módulos
+        // ELIMINADO: Repositorio de Mapbox, ya que el UXSDK no está
+        // maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
     }
 }
 
