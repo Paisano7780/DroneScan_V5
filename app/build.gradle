@@ -1,70 +1,123 @@
-// DroneScan_V5/app/build.gradle (archivo dentro de la carpeta app)
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
 android {
-    namespace 'com.dronescan.msdksample'
-    compileSdkVersion 33 // CAMBIADO: A 33
-    buildToolsVersion "33.0.0" // CAMBIADO: A 33.0.0
+    namespace = "com.dronescan.msdksample" // Asegúrate de que este sea tu namespace
+    compileSdk = 34
 
     defaultConfig {
-        applicationId "com.dronescan.msdksample"
-        minSdkVersion 24
-        targetSdkVersion 33 // CAMBIADO: A 33
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        applicationId = "com.dronescan.msdksample" // Asegúrate de que este sea tu ID de aplicación
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            isMinifyEnabled = false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        compose = true
+        viewBinding = true
+        dataBinding = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1" // Asegúrate de que esta versión sea compatible con tu versión de Kotlin
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/NOTICE"
+            excludes += "META-INF/NOTICE.txt"
+            excludes += "META-INF/*.kotlin_module"
+            pickFirsts += "META-INF/services/com.google.zxing.client.android.encode.EncodeWorker"
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 
-    buildFeatures {
-        viewBinding true
-        dataBinding true
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java", "src/main/kotlin")
+            res.srcDirs("src/main/res")
+            assets.srcDirs("src/main/assets")
+            jniLibs.srcDirs("src/main/jniLibs")
+        }
+    }
+
+    lintOptions {
+        disable("MultipleResolutions", "StringFormatMatches")
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlin_version}"
+    // Dependencias de AndroidX Core
+    implementation("androidx.core:core-ktx:${rootProject.extra["androidxCoreKtx"]}")
 
-    // Modulo UX SDK
-    implementation project(':uxsdk')
+    // Dependencias de AndroidX Lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.extra["androidxLifecycleRuntimeKtx"]}")
 
-    // ZXing (QR/Barcode Scanner)
-    implementation 'com.google.zxing:core:3.4.1'
-    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    // Dependencias de AndroidX Activity
+    implementation("androidx.activity:activity-compose:${rootProject.extra["androidxActivityCompose"]}")
 
-    // AndroidX
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.multidex:multidex:2.0.1'
+    // Jetpack Compose BOM
+    implementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
 
-    // DJI SDK core dependencies (si tu app las necesita directamente, si no, el UX SDK ya las trae)
-    api "com.dji:dji-sdk-v5-aircraft:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-networkImp:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-common:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-component:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-keyvalue:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-manager:${rootProject.ext.dji_sdk_version}"
-    api "com.dji:dji-sdk-v5-utils:${rootProject.ext.dji_sdk_version}"
+    // Jetpack Compose UI
+    implementation("androidx.compose.ui:ui:${rootProject.extra["androidxUi"]}")
+    implementation("androidx.compose.ui:ui-graphics:${rootProject.extra["androidxUiGraphics"]}")
+    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.extra["androidxUiToolingPreview"]}")
 
-    // Test
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // Material Design 3 (Compose)
+    implementation("androidx.compose.material3:material3:${rootProject.extra["androidxMaterial3"]}")
+
+    // Dependencias para pruebas
+    testImplementation("junit:junit:${rootProject.extra["junit"]}")
+    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidxJunit"]}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["androidxEspressoCore"]}")
+    androidTestImplementation(platform("androidx.compose:compose-bom:${rootProject.extra["androidxComposeBom"]}"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["androidxUiTestJunit4"]}")
+    debugImplementation("androidx.compose.ui:ui-tooling:${rootProject.extra["androidxUiTooling"]}")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:${rootProject.extra["androidxUiTooling"]}")
+
+    // Dependencias del DJI Mobile SDK (Versión 5.x)
+    // Se han añadido todos los módulos que el log indicaba como "Could not find"
+    implementation("com.dji:dji-sdk-v5-aircraft:${rootProject.extra["dji_sdk_version"]}")
+    compileOnly("com.dji:dji-sdk-v5-aircraft-provided:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-networkImp:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-common:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-component:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-keyvalue:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-manager:${rootProject.extra["dji_sdk_version"]}")
+    implementation("com.dji:dji-sdk-v5-utils:${rootProject.extra["dji_sdk_version"]}")
+    // Módulo UX SDK (si lo tienes como un módulo de código fuente en tu proyecto)
+    implementation(project(":uxsdk"))
+
+    // Dependencias de ZXing para escaneo de códigos de barras/QR
+    implementation("com.google.zxing:core:${rootProject.extra["zxingCore"]}")
+    implementation("com.journeyapps:zxing-android-embedded:${rootProject.extra["zxingAndroidEmbeddedVersion"]}")
 }

@@ -1,36 +1,44 @@
-// DroneScan_V5/build.gradle (archivo en la raíz del proyecto)
+// build.gradle.kts (en la raíz de tu proyecto DroneScan_V3)
+
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+}
 
 buildscript {
     ext {
-        kotlin_version = '1.8.10'
-        agp_version = '7.4.2'
-        dji_sdk_version = '5.15.0' // Versión del SDK de DJI
-        // Puedes añadir otras versiones aquí si es necesario
+        // Define las versiones aquí para usarlas en los módulos
+        set("kotlin_version", "1.9.0")
+        set("agp_version", "8.1.4")
+        set("dji_sdk_version", "5.15.0")
+        set("androidxCoreKtx", "1.9.0")
+        set("androidxLifecycleRuntimeKtx", "2.6.2")
+        set("androidxActivityCompose", "1.8.2")
+        set("androidxComposeBom", "2023.08.00")
+        set("androidxUi", "1.5.4")
+        set("androidxUiGraphics", "1.5.4")
+        set("androidxUiTooling", "1.5.4")
+        set("androidxUiToolingPreview", "1.5.4")
+        set("androidxMaterial3", "1.1.2")
+        set("junit", "4.13.2")
+        set("androidxJunit", "1.1.5")
+        set("androidxEspressoCore", "3.5.1")
+        set("androidxUiTestJunit4", "1.5.4")
+        set("zxingCore", "3.5.3")
+        set("zxingAndroidEmbeddedVersion", "4.3.0")
     }
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://developer.dji.com/maven/' } // Para plugins de buildscript
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTA: No coloques las dependencias de tu aplicación aquí; pertenecen
-        // a los archivos build.gradle de los módulos individuales
+        classpath("com.android.tools.build:gradle:${rootProject.extra["agp_version"]}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.extra["kotlin_version"]}")
     }
 }
 
-// Este bloque es CRÍTICO y debe estar presente para que funcione con PREFER_SETTINGS
-// y para que el UX SDK encuentre sus dependencias de DJI y Mapbox.
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://developer.dji.com/maven/' } // Para dependencias de módulos
-        maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' } // Para dependencias de Mapbox
-    }
-}
+// ELIMINADO: El bloque allprojects para repositorios, ya que settings.gradle.kts lo maneja.
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete::class) {
+    delete(layout.buildDirectory.get().asFile)
 }
