@@ -1,20 +1,20 @@
-// DroneScan_V5/SampleCode-V5/android-sdk-v5-sample/build.gradle (este archivo se convierte en :app)
+// DroneScan_V5/app/build.gradle (archivo dentro de la carpeta app)
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace 'com.dronescan.msdksample' // Tu Package Name de DJI
-    compileSdkVersion 33
-    buildToolsVersion "33.0.0"
+    namespace 'com.dronescan.msdksample'
+    compileSdkVersion 33 // CAMBIADO: A 33
+    buildToolsVersion "33.0.0" // CAMBIADO: A 33.0.0
 
     defaultConfig {
-        applicationId "com.dronescan.msdksample" // Tu Package Name de DJI
+        applicationId "com.dronescan.msdksample"
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 33 // CAMBIADO: A 33
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -35,42 +35,33 @@ android {
         viewBinding true
         dataBinding true
     }
-
-    packagingOptions {
-        pickFirst 'lib/arm64-v8a/libc++_shared.so'
-        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
-        pickFirst 'lib/x86/libc++_shared.so'
-        pickFirst 'lib/x86_64/libc++_shared.so'
-        exclude 'META-INF/rxjava.properties'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/DEPENDENCIES'
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlin_version}"
+
+    // Modulo UX SDK
+    implementation project(':uxsdk')
+
+    // ZXing (QR/Barcode Scanner)
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    // AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    // DJI SDK
-    implementation 'com.dji:dji-sdk-v5-aircraft:5.15.0'
-    compileOnly 'com.dji:dji-sdk-v5-aircraft-provided:5.15.0'
-    runtimeOnly 'com.dji:dji-sdk-v5-networkImp:5.15.0'
-
-    // DJI UX SDK - Dependencia al módulo de código fuente (ahora llamado :uxsdk)
-    implementation project(':uxsdk')
+    // DJI SDK core dependencies (si tu app las necesita directamente, si no, el UX SDK ya las trae)
+    api "com.dji:dji-sdk-v5-aircraft:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-networkImp:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-common:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-component:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-keyvalue:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-manager:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-utils:${rootProject.ext.dji_sdk_version}"
 
     // Test
     testImplementation 'junit:junit:4.13.2'

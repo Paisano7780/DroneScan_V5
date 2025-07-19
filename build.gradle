@@ -1,27 +1,33 @@
-// DroneScan_V5/build.gradle (archivo de build a nivel de proyecto)
+// DroneScan_V5/build.gradle (archivo en la raíz del proyecto)
 
 buildscript {
-    ext.kotlin_version = '1.8.10' // Versión de Kotlin del sample
+    ext {
+        kotlin_version = '1.8.10'
+        agp_version = '7.4.2'
+        dji_sdk_version = '5.15.0' // Versión del SDK de DJI
+        // Puedes añadir otras versiones aquí si es necesario
+    }
     repositories {
         google()
         mavenCentral()
-        // Este repositorio es para los PLUGINS de buildscript.
-        maven { url 'https://developer.dji.com/maven/' }
+        maven { url 'https://developer.dji.com/maven/' } // Para plugins de buildscript
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2' // Versión de AGP del sample
+        classpath "com.android.tools.build:gradle:$agp_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // NOTA: Las dependencias de tu aplicación NO van aquí; pertenecen a los archivos build.gradle de cada módulo
+        // NOTA: No coloques las dependencias de tu aplicación aquí; pertenecen
+        // a los archivos build.gradle de los módulos individuales
     }
 }
 
 // Este bloque es CRÍTICO y debe estar presente para que funcione con PREFER_SETTINGS
+// y para que el UX SDK encuentre sus dependencias de DJI y Mapbox.
 allprojects {
     repositories {
         google()
         mavenCentral()
-        // Repositorio de DJI para las dependencias de los módulos del proyecto
-        maven { url 'https://developer.dji.com/maven/' }
+        maven { url 'https://developer.dji.com/maven/' } // Para dependencias de módulos
+        maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' } // Para dependencias de Mapbox
     }
 }
 

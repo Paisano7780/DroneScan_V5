@@ -1,15 +1,15 @@
-// DroneScan_V5/SampleCode-V5/android-sdk-v5-uxsdk/build.gradle (este archivo se convierte en :uxsdk)
+// DroneScan_V5/uxsdk/build.gradle (archivo dentro de la carpeta uxsdk)
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
     namespace 'dji.v5.ux' // Asegúrate de que este sea el namespace correcto del UX SDK
-    compileSdkVersion 33
-    buildToolsVersion "33.0.0"
+    compileSdkVersion 33 // CAMBIADO: A 33
+    buildToolsVersion "33.0.0" // CAMBIADO: A 33.0.0
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 33 // CAMBIADO: A 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -45,7 +45,6 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/DEPENDENCIES'
     }
@@ -57,18 +56,30 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlin_version}"
 
-    // Dependencias de AndroidX necesarias para el UX SDK
+    // DJI SDK core dependencies - ¡Todas estas son necesarias para el UX SDK!
+    api "com.dji:dji-sdk-v5-aircraft:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-networkImp:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-common:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-component:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-keyvalue:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-manager:${rootProject.ext.dji_sdk_version}"
+    api "com.dji:dji-sdk-v5-utils:${rootProject.ext.dji_sdk_version}" // Para LogUtils, DisplayUtil, etc.
+
+    // Mapbox dependencies - ¡Necesarias porque el UX SDK las usa internamente para mapas!
+    // Aunque tu app no use mapas, el UX SDK los necesita para compilar.
+    api 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.0'
+    api 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
+    api 'com.mapbox.mapboxsdk:mapbox-android-sdk-geojson:5.9.0'
+    api 'com.mapbox.mapboxsdk:mapbox-android-sdk-turf:5.9.0'
+
+    // AndroidX dependencies
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.multidex:multidex:2.0.1'
-
-    // DJI SDK principal (el módulo UX SDK necesita esto para funcionar)
-    api 'com.dji:dji-sdk-v5-aircraft:5.15.0'
-    api 'com.dji:dji-sdk-v5-networkImp:5.15.0'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
